@@ -16,7 +16,9 @@ schemaw={'geometry': 'Point','properties': {'id': 'int','categorie': 'str'}}
 with fiona.open('/home/houssem/postedetravail/pythonSIG/p/pySIG/output.shp', 'w',driver='ESRI Shapefile',crs=from_epsg(27561), schema=schemaw) as output:
     with open('/home/houssem/postedetravail/pythonSIG/p/pySIG/points_EPSG-27561.csv') as csvfile:
         reader = csv.DictReader(csvfile)
+        j=0
         for row in reader:
+            j+=1
             east=row['Easting']
             east=east.replace(",", ".")
             north=row['Northing']
@@ -29,7 +31,7 @@ with fiona.open('/home/houssem/postedetravail/pythonSIG/p/pySIG/output.shp', 'w'
             elif row['Group'][-1]=="3":
                 category='c'
             point = Point(float(north),float(east),2)
-            output.write({'properties': {'id': 0,'categorie': category},'geometry': mapping(point)})
+            output.write({'properties': {'id': j,'categorie': category},'geometry': mapping(point)})
         
    
 schemawPolygon={'geometry': 'Polygon','properties': {'id': 'int','categorie': 'str'}}
@@ -42,20 +44,19 @@ with fiona.open('/home/houssem/postedetravail/pythonSIG/p/pySIG/output2.shp', 'w
             if line["properties"]["categorie"]=='a':
                 poly1.append(line["geometry"]["coordinates"])
         polygon_1 = Polygon(poly1) 
-        output_polygones.write({'properties': {'id': 0,'categorie': category},'geometry': mapping(polygon_1.convex_hull.buffer(1.0))})
+        output_polygones.write({'properties': {'id': 0,'categorie': 'a'},'geometry': mapping(polygon_1.convex_hull.buffer(1.0))})
         for line in input_shp:
             if line["properties"]["categorie"]=='b':
                 poly2.append(line["geometry"]["coordinates"])
         polygon_2 = Polygon(poly2) 
-        output_polygones.write({'properties': {'id': 0,'categorie': category},'geometry': mapping(polygon_2.convex_hull.buffer(1.0))})
+        output_polygones.write({'properties': {'id': 1,'categorie': 'b'},'geometry': mapping(polygon_2.convex_hull.buffer(1.0))})
         for line in input_shp:
             if line["properties"]["categorie"]=='c':
                 poly3.append(line["geometry"]["coordinates"])
         polygon_3 = Polygon(poly3) 
-        output_polygones.write({'properties': {'id': 0,'categorie': category},'geometry': mapping(polygon_3.convex_hull.buffer(1.0))})
+        output_polygones.write({'properties': {'id': 2,'categorie': 'c'},'geometry': mapping(polygon_3.convex_hull.buffer(1.0))})
         
-        
-        
+
         
         
         

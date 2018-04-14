@@ -13,8 +13,8 @@ import csv
 
 schemaw={'geometry': 'Point','properties': {'id': 'int','categorie': 'str'}}
 
-with fiona.open('/home/houssem/postedetravail/pythonSIG/p/pySIG/output.shp', 'w',driver='ESRI Shapefile',crs=from_epsg(27561), schema=schemaw) as output:
-    with open('/home/houssem/postedetravail/pythonSIG/p/pySIG/points_EPSG-27561.csv') as csvfile:
+with fiona.open('output_files_test/output.shp', 'w',driver='ESRI Shapefile',crs=from_epsg(27561), schema=schemaw) as output:
+    with open('data/points_EPSG-27561.csv') as csvfile:
         reader = csv.DictReader(csvfile)
         j=0
         for row in reader:
@@ -35,8 +35,8 @@ with fiona.open('/home/houssem/postedetravail/pythonSIG/p/pySIG/output.shp', 'w'
         
    
 schemawPolygon={'geometry': 'Polygon','properties': {'id': 'int','categorie': 'str'}}
-with fiona.open('/home/houssem/postedetravail/pythonSIG/p/pySIG/output2.shp', 'w',driver='ESRI Shapefile',crs=from_epsg(27561), schema=schemawPolygon) as output_polygones:
-    with fiona.open('/home/houssem/postedetravail/pythonSIG/p/pySIG/output.shp', 'r') as input_shp:
+with fiona.open('output_files_test/output2.shp', 'w',driver='ESRI Shapefile',crs=from_epsg(27561), schema=schemawPolygon) as output_polygones:
+    with fiona.open('output_files_test/output.shp', 'r') as input_shp:
         poly1=[]        
         poly2=[] 
         poly3=[] 
